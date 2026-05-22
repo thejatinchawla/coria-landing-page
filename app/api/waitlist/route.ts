@@ -132,6 +132,19 @@ const shellOpen =
   brandHeader;
 const shellClose = `</div></div>`;
 
+// Social links — kept in sync with the landing page footer.
+const GITHUB_URL = "https://github.com/thejatinchawla/coria";
+const LINKEDIN_URL = "https://www.linkedin.com/in/jatin-chawla-2a167720a/";
+// Icons are hosted PNGs (email clients can't render inline SVG). They load from
+// the deployed site; alt text falls back to the name if images are blocked.
+const socialRow =
+  `<p style="margin:0 0 14px;line-height:0">` +
+  `<a href="${GITHUB_URL}" target="_blank" style="text-decoration:none;display:inline-block;margin-right:14px">` +
+  `<img src="${HOME_URL}/github.png" width="20" height="20" alt="GitHub" style="display:inline-block;border:0;outline:none" /></a>` +
+  `<a href="${LINKEDIN_URL}" target="_blank" style="text-decoration:none;display:inline-block">` +
+  `<img src="${HOME_URL}/linkedin.png" width="20" height="20" alt="LinkedIn" style="display:inline-block;border:0;outline:none" /></a>` +
+  `</p>`;
+
 function confirmationHtml(): string {
   return (
     shellOpen +
@@ -139,6 +152,7 @@ function confirmationHtml(): string {
     `<p style="font-size:15px;line-height:1.6;color:#5A5A5A;margin:0 0 16px">You're on the early-access waitlist. Coria is a team messaging platform where AI agents are first-class members, with identity, memory, and accountability. We'll be in touch as we open access.</p>` +
     `<p style="font-size:15px;line-height:1.6;color:#5A5A5A;margin:0 0 28px">The Coria team</p>` +
     `<hr style="border:none;border-top:1px solid #E8E8E4;margin:0 0 16px" />` +
+    socialRow +
     `<p style="font-size:12px;line-height:1.6;color:#999;margin:0">You received this because you joined the waitlist at Coria. If this wasn't you, you can safely ignore it.</p>` +
     shellClose
   );
@@ -148,7 +162,8 @@ const confirmationText =
   `Thanks for your interest in Coria (${HOME_URL}/).\n\n` +
   "You're on the early-access waitlist. Coria is a team messaging platform where " +
   "AI agents are first-class members, with identity, memory, and accountability. " +
-  "We'll be in touch as we open access.\n\nThe Coria team";
+  "We'll be in touch as we open access.\n\nThe Coria team" +
+  `\n\nGitHub: ${GITHUB_URL}\nLinkedIn: ${LINKEDIN_URL}`;
 
 function notificationHtml(email: string, when: string): string {
   const safe = escapeHtml(email);
@@ -156,7 +171,9 @@ function notificationHtml(email: string, when: string): string {
     shellOpen +
     `<p style="font-size:15px;line-height:1.6;color:#0A0A0A;margin:0 0 16px">New waitlist signup</p>` +
     `<p style="font-size:15px;line-height:1.6;color:#5A5A5A;margin:0 0 8px">Email: <strong style="color:#0A0A0A">${safe}</strong></p>` +
-    `<p style="font-size:13px;line-height:1.6;color:#999;margin:0">${escapeHtml(when)}</p>` +
+    `<p style="font-size:13px;line-height:1.6;color:#999;margin:0 0 24px">${escapeHtml(when)}</p>` +
+    `<hr style="border:none;border-top:1px solid #E8E8E4;margin:0 0 16px" />` +
+    socialRow +
     shellClose
   );
 }
@@ -205,7 +222,7 @@ export async function POST(request: Request) {
         replyTo: { email: clean },
         subject: `New Coria waitlist signup: ${clean}`,
         htmlContent: notificationHtml(clean, human),
-        textContent: `New waitlist signup\n\nEmail: ${clean}\n${human}`,
+        textContent: `New waitlist signup\n\nEmail: ${clean}\n${human}\n\nGitHub: ${GITHUB_URL}\nLinkedIn: ${LINKEDIN_URL}`,
       });
       try {
         await sendEmail({

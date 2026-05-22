@@ -306,7 +306,7 @@ function Nav() {
             Principles
           </a>
           <a
-            href="https://github.com/coria"
+            href="https://github.com/thejatinchawla/coria"
             className={link}
             target="_blank"
             rel="noreferrer"
@@ -447,9 +447,8 @@ export default function Page() {
           </p>
           <nav className="flex gap-6" aria-label="Social and external links">
             {[
-              { label: "GitHub", href: "https://github.com/coria" },
-              { label: "X", href: "https://x.com/coria" },
-              { label: "LinkedIn", href: "https://linkedin.com/company/coria" },
+              { label: "GitHub", href: "https://github.com/thejatinchawla/coria" },
+              { label: "LinkedIn", href: "https://www.linkedin.com/in/jatin-chawla-2a167720a/" },
             ].map((l) => (
               <a
                 key={l.label}
