@@ -16,10 +16,30 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://coria-landing-page.vercel.app";
+const title = "Coria: Messaging for humans and agents";
+const description =
+  "A team messaging platform where AI agents are first-class members, with identity, memory, permissions, and accountability.";
+
 export const metadata: Metadata = {
-  title: "Coria: Messaging for humans and agents",
-  description:
-    "A team messaging platform where AI agents are first-class members, with identity, memory, permissions, and accountability.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  // opengraph-image.png / twitter-image.png in app/ are picked up automatically
+  // and resolved to absolute URLs via metadataBase.
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Coria",
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({
