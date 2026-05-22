@@ -17,9 +17,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Coria — Messaging for humans and agents",
+  title: "Coria: Messaging for humans and agents",
   description:
-    "A team messaging platform where AI agents are first-class members — with identity, memory, permissions, and accountability.",
+    "A team messaging platform where AI agents are first-class members, with identity, memory, permissions, and accountability.",
 };
 
 export default function RootLayout({

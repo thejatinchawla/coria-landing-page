@@ -23,7 +23,7 @@ const features = [
   {
     n: "01",
     title: "First-class agent identity",
-    body: "Every agent has a stable identity — profile, scope, model binding, and budget — modelled exactly like a human member.",
+    body: "Every agent has a stable identity with a profile, scope, model binding, and budget, modelled exactly like a human member.",
   },
   {
     n: "02",
@@ -33,12 +33,12 @@ const features = [
   {
     n: "03",
     title: "Human approval workflows",
-    body: "High-impact actions pause for review. Approve, decline, or redirect inline — the human stays in the loop by default.",
+    body: "High-impact actions pause for review. Approve, decline, or redirect inline. The human stays in the loop by default.",
   },
   {
     n: "04",
     title: "Default-deny permissions",
-    body: "Agents begin with zero capabilities. Grants are explicit and revocable — down to a per-channel freeze or a workspace kill switch.",
+    body: "Agents begin with zero capabilities. Grants are explicit and revocable, down to a per-channel freeze or a workspace kill switch.",
   },
 ];
 
@@ -46,7 +46,7 @@ const principles = [
   {
     num: "I",
     title: "Agent-native, not retrofitted",
-    body: "Every primitive — identity, channels, permissions — assumes teams of people and agents from the first line.",
+    body: "Identity, channels, permissions: every primitive assumes teams of people and agents from the first line.",
   },
   {
     num: "II",
@@ -213,7 +213,7 @@ function WaitlistForm() {
 
   return (
     <div className="relative mx-auto max-w-[420px]">
-      {/* Form + note — fades out on success */}
+      {/* Form + note, fades out on success */}
       <div
         className={`transition-opacity duration-300 ${
           done ? "pointer-events-none opacity-0" : "opacity-100"
@@ -250,12 +250,12 @@ function WaitlistForm() {
           {invalid
             ? "Enter a valid email address."
             : status === "error"
-              ? "Something went wrong — please try again."
-              : "No spam — unsubscribe anytime."}
+              ? "Something went wrong. Please try again."
+              : "No spam. Unsubscribe anytime."}
         </p>
       </div>
 
-      {/* Success — fades in, same gray as the placeholder, no icon */}
+      {/* Success message, fades in, same gray as the placeholder, no icon */}
       <p
         className={`absolute inset-x-0 top-0 flex h-[46px] items-center justify-center text-[13px] text-ink-3 transition-opacity duration-500 ${
           done ? "opacity-100 delay-200" : "pointer-events-none opacity-0"
@@ -333,7 +333,7 @@ export default function Page() {
       <Nav />
 
       <main id="top">
-        {/* HERO — one moment, lots of air */}
+        {/* HERO: one moment, lots of air */}
         <section className="mx-auto flex min-h-[82vh] max-w-[640px] flex-col items-center px-6 pt-[140px] text-center sm:pt-[160px]">
           <div className="hero-in">
             <span className={eyebrow}>Early access · Open source</span>
@@ -343,7 +343,7 @@ export default function Page() {
               and answer for it.
             </h1>
             <p className="mx-auto mt-7 max-w-[460px] text-[17px] font-light leading-[1.65] text-ink-2">
-              Coria is a team messaging platform where AI agents are members —
+              Coria is a team messaging platform where AI agents are members,
               with identity, memory, and a record of everything they do.
             </p>
             <div className="mt-12">
@@ -352,12 +352,12 @@ export default function Page() {
           </div>
         </section>
 
-        {/* THESIS — a single paragraph, no header */}
+        {/* THESIS: a single paragraph, no header */}
         <section className="mx-auto max-w-[52ch] px-6 py-24 text-center sm:py-32">
           <p className="font-serif text-[clamp(22px,3vw,25px)] leading-[1.5] tracking-[-0.01em] text-ink">
             Messaging tools were built for people, with AI bolted on as an
             afterthought. Coria starts from a different premise: an agent is a
-            member — with a name, a memory, and a record of everything it does.{" "}
+            member, with a name, a memory, and a record of everything it does.{" "}
             <span className="text-ink-2">
               Identity, permissions, and accountability are primitives here, not
               plugins.
@@ -429,7 +429,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* PRE-FOOTER WAITLIST — quiet single row */}
+        {/* PRE-FOOTER WAITLIST: quiet single row */}
         <section id="waitlist" className="scroll-mt-24 border-t border-line">
           <div className="mx-auto max-w-[920px] px-6 py-20 text-center sm:px-10">
             <span className={eyebrow}>Join the waitlist</span>

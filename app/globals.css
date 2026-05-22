@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Two fonts only — wired to the next/font variables in layout.tsx */
+  /* Two fonts only, wired to the next/font variables in layout.tsx */
   --font-sans: var(--font-inter);
   --font-serif: var(--font-instrument);
 
@@ -53,7 +53,7 @@ body {
   }
 }
 
-/* Custom cursor — hide the native pointer only while the bespoke one is active.
+/* Custom cursor: hide the native pointer only while the bespoke one is active.
    The class is added by the CustomCursor component, and only for fine pointers. */
 .has-custom-cursor,
 .has-custom-cursor * {
