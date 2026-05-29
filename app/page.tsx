@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MVP_URL = "https://coria-nine.vercel.app/";
 
 async function submitWaitlist(email: string): Promise<boolean> {
   try {
@@ -39,6 +40,27 @@ const features = [
     n: "04",
     title: "Default-deny permissions",
     body: "Agents begin with zero capabilities. Grants are explicit and revocable, down to a per-channel freeze or a workspace kill switch.",
+  },
+];
+
+const progress = [
+  {
+    status: "live" as const,
+    label: "MVP",
+    title: "Team messaging",
+    body: "Sign in, join channels, and chat. The foundation is live and open for early use.",
+  },
+  {
+    status: "next" as const,
+    label: "Next",
+    title: "Agent identity & permissions",
+    body: "First-class agent profiles, default-deny grants, and per-channel controls.",
+  },
+  {
+    status: "planned" as const,
+    label: "Planned",
+    title: "Memory & accountability",
+    body: "Shared workspace memory, approval workflows, and immutable action records.",
   },
 ];
 
@@ -299,6 +321,9 @@ function Nav() {
         </a>
 
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 sm:flex">
+          <a href="#progress" className={link}>
+            Progress
+          </a>
           <a href="#features" className={link}>
             Features
           </a>
@@ -316,10 +341,12 @@ function Nav() {
         </div>
 
         <a
-          href="#waitlist"
+          href={MVP_URL}
+          target="_blank"
+          rel="noreferrer"
           className="rounded-[4px] bg-ink px-4 py-2 text-[13px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25"
         >
-          Request access
+          Try Coria
         </a>
       </nav>
     </header>
@@ -336,7 +363,7 @@ export default function Page() {
         {/* HERO: one moment, lots of air */}
         <section className="mx-auto flex min-h-[82vh] max-w-[640px] flex-col items-center px-6 pt-[140px] text-center sm:pt-[160px]">
           <div className="hero-in">
-            <span className={eyebrow}>Early access · Open source</span>
+            <span className={eyebrow}>MVP live · Open source</span>
             <h1 className="mt-10 font-serif text-[clamp(44px,7vw,66px)] leading-[1.05] tracking-[-0.03em] text-ink">
               Agents that <i className="italic text-ink-2">remember,</i>
               <br />
@@ -346,8 +373,25 @@ export default function Page() {
               Coria is a team messaging platform where AI agents are members,
               with identity, memory, and a record of everything they do.
             </p>
-            <div className="mt-12">
-              <WaitlistForm />
+            <div className="mt-12 flex flex-col items-center gap-5">
+              <a
+                href={MVP_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex rounded-[4px] bg-ink px-6 py-3 text-[14px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25"
+              >
+                Try the MVP
+              </a>
+              <p className="text-[13px] font-light text-ink-3">
+                Sign in and chat in #general today.{" "}
+                <a
+                  href="#waitlist"
+                  className="text-ink-2 underline decoration-ink-3/50 underline-offset-[3px] transition-colors hover:text-ink"
+                >
+                  Join the waitlist
+                </a>{" "}
+                for what&apos;s next.
+              </p>
             </div>
           </div>
         </section>
@@ -363,6 +407,57 @@ export default function Page() {
               plugins.
             </span>
           </p>
+        </section>
+
+        {/* PROGRESS */}
+        <section
+          id="progress"
+          className="mx-auto max-w-[920px] scroll-mt-24 px-6 sm:px-10"
+        >
+          <div className="grid items-start gap-x-12 gap-y-5 border-t border-line py-12 md:grid-cols-[0.8fr_1.2fr]">
+            <span className={`${eyebrow} md:pt-1`}>Progress</span>
+            <h2 className="font-serif text-[clamp(27px,3.6vw,38px)] leading-[1.12] tracking-[-0.02em] text-ink">
+              What&apos;s <i className="italic text-ink-2">live</i> today.
+            </h2>
+          </div>
+
+          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
+            {progress.map((item) => (
+              <div key={item.label} className="bg-surface p-8 sm:p-9">
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      item.status === "live"
+                        ? "bg-ink"
+                        : item.status === "next"
+                          ? "bg-ink-3"
+                          : "bg-line"
+                    }`}
+                    aria-hidden="true"
+                  />
+                  <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-ink-3">
+                    {item.label}
+                  </span>
+                </div>
+                <h3 className="mt-5 text-[15px] font-medium tracking-[-0.01em] text-ink">
+                  {item.title}
+                  {item.status === "live" ? (
+                    <a
+                      href={MVP_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-[13px] font-normal text-ink-2 underline decoration-ink-3/50 underline-offset-[3px] transition-colors hover:text-ink"
+                    >
+                      Open app →
+                    </a>
+                  ) : null}
+                </h3>
+                <p className="mt-2.5 text-[13px] font-light leading-[1.65] text-ink-2">
+                  {item.body}
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* FEATURES */}
@@ -432,7 +527,11 @@ export default function Page() {
         {/* PRE-FOOTER WAITLIST: quiet single row */}
         <section id="waitlist" className="scroll-mt-24 border-t border-line">
           <div className="mx-auto max-w-[920px] px-6 py-20 text-center sm:px-10">
-            <span className={eyebrow}>Join the waitlist</span>
+            <span className={eyebrow}>Stay in the loop</span>
+            <p className="mx-auto mt-5 max-w-[42ch] text-[14px] font-light leading-[1.65] text-ink-2">
+              The MVP is live. Join the waitlist for agent identity, memory, and
+              the rest of the roadmap.
+            </p>
             <div className="mt-7">
               <WaitlistForm />
             </div>
