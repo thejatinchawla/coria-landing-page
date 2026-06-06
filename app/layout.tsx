@@ -18,9 +18,9 @@ const instrumentSerif = Instrument_Serif({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://coria-landing-page.vercel.app";
-const title = "Coria: Messaging for humans and agents";
+const title = "Coria: Agents that act with your team's permission";
 const description =
-  "A team messaging platform where AI agents are first-class members, with identity, memory, permissions, and accountability.";
+  "AI-native team workspace with channels, multi-agent @mentions, human-in-the-loop approvals, workspace memory, and audit. Open source.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ProductPreview } from "@/components/ProductPreview";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MVP_URL = "https://coria-nine.vercel.app/";
+const APP_URL = "https://coria-app.vercel.app/";
 
 async function submitWaitlist(email: string): Promise<boolean> {
   try {
@@ -24,43 +25,65 @@ const features = [
   {
     n: "01",
     title: "First-class agent identity",
-    body: "Every agent has a stable identity with a profile, scope, model binding, and budget, modelled exactly like a human member.",
+    body: "Every agent has a name, @mention slug, avatar, and tool allowlist, modelled like a teammate. Create custom agents or start with @divv in every workspace.",
+    live: true,
   },
   {
     n: "02",
     title: "Shared workspace memory",
-    body: "A tiered memory layer means no agent starts from zero. Context carries across channels, sessions, and teammates.",
+    body: "Messages embed on send. Agents retrieve channel context and search across the workspace with workspace_search, so there are no cold starts.",
+    live: true,
   },
   {
     n: "03",
     title: "Human approval workflows",
-    body: "High-impact actions pause for review. Approve, decline, or redirect inline. The human stays in the loop by default.",
+    body: "High-impact tool calls pause in chat. Approve or decline GitHub comments and PRs inline. A five-gate broker runs before every external write.",
+    live: true,
   },
   {
     n: "04",
     title: "Default-deny permissions",
-    body: "Agents begin with zero capabilities. Grants are explicit and revocable, down to a per-channel freeze or a workspace kill switch.",
+    body: "Agents get only the tools you allow. Workspace kill switch, monthly budgets, and per-agent pause. Revocation at every level.",
+    live: true,
   },
 ];
 
 const progress = [
   {
     status: "live" as const,
-    label: "MVP",
+    label: "Live",
     title: "Team messaging",
-    body: "Sign in, join channels, and chat. The foundation is live and open for early use.",
+    body: "Channels, threads, pins, search, and teammate DMs. Hybrid or humans-only channels. Real-time chat built on Supabase.",
+  },
+  {
+    status: "live" as const,
+    label: "Live",
+    title: "Agents & @mentions",
+    body: "Streaming invoke, custom agents, keyword triggers, reasoning traces, and agent DMs. @mention any agent in channel or DM.",
+  },
+  {
+    status: "live" as const,
+    label: "Live",
+    title: "Memory & RAG",
+    body: "Channel embeddings on send, thread-aware retrieval, and workspace-wide search so agents answer with team context.",
+  },
+  {
+    status: "live" as const,
+    label: "Live",
+    title: "Approvals & audit",
+    body: "Action blocks in chat, pending-approval badges, and a filterable audit log with 30-day JSON export.",
+  },
+  {
+    status: "live" as const,
+    label: "Live",
+    title: "Integrations",
+    body: "GitHub OAuth for read and approved writes. Web search via Tavily. Groq or Anthropic LLM keys per workspace.",
   },
   {
     status: "next" as const,
     label: "Next",
-    title: "Agent identity & permissions",
-    body: "First-class agent profiles, default-deny grants, and per-channel controls.",
-  },
-  {
-    status: "planned" as const,
-    label: "Planned",
-    title: "Memory & accountability",
-    body: "Shared workspace memory, approval workflows, and immutable action records.",
+    title: "Polish & scale",
+    body: "Agent templates, unread badges, in-app cron triggers, agent-to-agent delegation, and cross-channel citations.",
   },
 ];
 
@@ -293,6 +316,7 @@ function WaitlistForm() {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -301,21 +325,32 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const link =
     "text-[13px] text-ink opacity-60 transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:opacity-100";
+
+  const mobileLink =
+    "block rounded-[4px] px-3 py-2.5 text-[15px] text-ink hover:bg-line/60";
 
   return (
     <header
       className={`sticky top-0 z-50 h-16 border-b backdrop-blur-xl transition-colors duration-200 ${
-        scrolled
+        scrolled || menuOpen
           ? "border-line bg-surface/80"
           : "border-transparent bg-surface/60"
       }`}
     >
-      <nav className="relative mx-auto flex h-full max-w-[920px] items-center justify-between px-6 sm:px-10">
+      <nav className="relative mx-auto flex h-full max-w-[920px] items-center justify-between gap-3 px-5 sm:px-10">
         <a
           href="#top"
           className="font-serif text-[20px] tracking-[-0.01em] text-ink"
+          onClick={() => setMenuOpen(false)}
         >
           Coria
         </a>
@@ -340,15 +375,70 @@ function Nav() {
           </a>
         </div>
 
-        <a
-          href={MVP_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-[4px] bg-ink px-4 py-2 text-[13px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25"
-        >
-          Try Coria
-        </a>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            className="inline-flex size-9 items-center justify-center rounded-[4px] text-ink sm:hidden"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M4 5h16" />
+                <path d="M4 12h16" />
+                <path d="M4 19h16" />
+              </svg>
+            )}
+          </button>
+
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-[4px] bg-ink px-3 py-2 text-[12px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 sm:px-4 sm:text-[13px]"
+          >
+            Try Coria
+          </a>
+        </div>
       </nav>
+
+      {menuOpen ? (
+        <div
+          id="mobile-nav"
+          className="border-t border-line bg-surface/95 px-5 py-4 sm:hidden"
+        >
+          <div className="flex flex-col gap-1">
+            {[
+              { label: "Progress", href: "#progress" },
+              { label: "Features", href: "#features" },
+              { label: "Principles", href: "#principles" },
+              {
+                label: "GitHub",
+                href: "https://github.com/thejatinchawla/coria",
+                external: true,
+              },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className={mobileLink}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noreferrer" : undefined}
+                onClick={() => setMenuOpen(false)}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }
@@ -360,44 +450,53 @@ export default function Page() {
       <Nav />
 
       <main id="top">
-        {/* HERO: one moment, lots of air */}
-        <section className="mx-auto flex min-h-[82vh] max-w-[640px] flex-col items-center px-6 pt-[140px] text-center sm:pt-[160px]">
-          <div className="hero-in">
-            <span className={eyebrow}>MVP live · Open source</span>
-            <h1 className="mt-10 font-serif text-[clamp(44px,7vw,66px)] leading-[1.05] tracking-[-0.03em] text-ink">
-              Agents that <i className="italic text-ink-2">remember,</i>
-              <br />
-              and answer for it.
-            </h1>
-            <p className="mx-auto mt-7 max-w-[460px] text-[17px] font-light leading-[1.65] text-ink-2">
-              Coria is a team messaging platform where AI agents are members,
-              with identity, memory, and a record of everything they do.
-            </p>
-            <div className="mt-12 flex flex-col items-center gap-5">
-              <a
-                href={MVP_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex rounded-[4px] bg-ink px-6 py-3 text-[14px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25"
-              >
-                Try the MVP
-              </a>
-              <p className="text-[13px] font-light text-ink-3">
-                Sign in and chat in #general today.{" "}
-                <a
-                  href="#waitlist"
-                  className="text-ink-2 underline decoration-ink-3/50 underline-offset-[3px] transition-colors hover:text-ink"
-                >
-                  Join the waitlist
-                </a>{" "}
-                for what&apos;s next.
+        {/* HERO: full viewport, copy + product */}
+        <section className="hero-viewport relative flex h-[calc(100svh-4rem)] min-h-0 flex-col overflow-hidden lg:grid lg:grid-cols-2 lg:grid-rows-1">
+          <div className="hero-in flex shrink-0 flex-col justify-center px-5 py-5 sm:px-8 sm:py-8 lg:min-h-0 lg:shrink lg:px-14 lg:py-16 xl:px-20">
+            <div className="mx-auto w-full max-w-[34rem] text-center lg:mx-0 lg:text-left">
+              <span className={eyebrow}>v3 live · Open source</span>
+              <h1 className="mt-4 font-serif text-[clamp(28px,7.2vw,58px)] leading-[1.06] tracking-[-0.03em] text-ink sm:mt-6 lg:mt-10">
+                Agents that <i className="italic text-ink-2">act,</i>
+                <br />
+                with your team&apos;s permission.
+              </h1>
+              <p className="mt-3 text-[14px] font-light leading-[1.6] text-ink-2 sm:mt-5 sm:text-[16px] sm:leading-[1.65] lg:max-w-[42ch] lg:text-[17px]">
+                An AI-native team workspace with channels, multiple agents,
+                human-in-the-loop approvals, and governance built in.
               </p>
+              <div className="mt-5 flex flex-col items-center gap-3 sm:mt-8 sm:gap-5 lg:items-start">
+                <a
+                  href={APP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex rounded-[4px] bg-ink px-5 py-2.5 text-[13px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 sm:px-6 sm:py-3 sm:text-[14px]"
+                >
+                  Try Coria
+                </a>
+                <p className="hidden max-w-[38ch] text-[13px] font-light text-ink-3 sm:block">
+                  Open #general and mention @divv today.{" "}
+                  <a
+                    href="#waitlist"
+                    className="text-ink-2 underline decoration-ink-3/50 underline-offset-[3px] transition-colors hover:text-ink"
+                  >
+                    Join the waitlist
+                  </a>{" "}
+                  for templates, notifications, and what&apos;s next.
+                </p>
+              </div>
             </div>
+          </div>
+
+          <div className="hero-in flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden border-t border-line px-3 py-3 sm:px-5 sm:py-5 lg:border-t-0 lg:border-l lg:px-8 lg:py-8">
+            <ProductPreview fill />
           </div>
         </section>
 
         {/* THESIS: a single paragraph, no header */}
-        <section className="mx-auto max-w-[52ch] px-6 py-24 text-center sm:py-32">
+        <section
+          id="thesis"
+          className="mx-auto max-w-[52ch] scroll-mt-24 px-6 py-24 text-center sm:py-32"
+        >
           <p className="font-serif text-[clamp(22px,3vw,25px)] leading-[1.5] tracking-[-0.01em] text-ink">
             Messaging tools were built for people, with AI bolted on as an
             afterthought. Coria starts from a different premise: an agent is a
@@ -421,9 +520,9 @@ export default function Page() {
             </h2>
           </div>
 
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
+          <div className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {progress.map((item) => (
-              <div key={item.label} className="bg-surface p-8 sm:p-9">
+              <div key={item.title} className="bg-surface p-8 sm:p-9">
                 <div className="flex items-center gap-2">
                   <span
                     className={`h-1.5 w-1.5 rounded-full ${
@@ -441,16 +540,6 @@ export default function Page() {
                 </div>
                 <h3 className="mt-5 text-[15px] font-medium tracking-[-0.01em] text-ink">
                   {item.title}
-                  {item.status === "live" ? (
-                    <a
-                      href={MVP_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-[13px] font-normal text-ink-2 underline decoration-ink-3/50 underline-offset-[3px] transition-colors hover:text-ink"
-                    >
-                      Open app →
-                    </a>
-                  ) : null}
                 </h3>
                 <p className="mt-2.5 text-[13px] font-light leading-[1.65] text-ink-2">
                   {item.body}
@@ -475,14 +564,31 @@ export default function Page() {
             </h2>
           </div>
 
+          <div className="mb-12 max-w-[52ch] border-t border-line pt-10">
+            <span className={eyebrow}>In the product</span>
+            <h3 className="mt-4 font-serif text-[clamp(22px,2.8vw,28px)] leading-[1.15] tracking-[-0.02em] text-ink">
+              @mention an agent like any teammate.
+            </h3>
+            <p className="mt-3 text-[13px] font-light leading-[1.65] text-ink-2">
+              Mention @divv or any custom agent in channel or DM. Risky actions,
+              like posting to GitHub, pause for Approve or Decline right in
+              chat.
+            </p>
+          </div>
+
           <div className="grid border-l border-t border-line sm:grid-cols-2">
             {features.map((f) => (
               <div
                 key={f.n}
                 className="border-b border-r border-line p-8 sm:p-9"
               >
-                <div className="text-[11px] tabular-nums tracking-[0.1em] text-ink-3">
-                  {f.n}
+                <div className="flex items-center gap-2 text-[11px] tabular-nums tracking-[0.1em] text-ink-3">
+                  <span>{f.n}</span>
+                  {"live" in f && f.live ? (
+                    <span className="rounded-[3px] border border-line px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.06em] text-ink-2">
+                      Live
+                    </span>
+                  ) : null}
                 </div>
                 <h3 className="mt-5 text-[15px] font-medium tracking-[-0.01em] text-ink">
                   {f.title}
@@ -528,9 +634,9 @@ export default function Page() {
         <section id="waitlist" className="scroll-mt-24 border-t border-line">
           <div className="mx-auto max-w-[920px] px-6 py-20 text-center sm:px-10">
             <span className={eyebrow}>Stay in the loop</span>
-            <p className="mx-auto mt-5 max-w-[42ch] text-[14px] font-light leading-[1.65] text-ink-2">
-              The MVP is live. Join the waitlist for agent identity, memory, and
-              the rest of the roadmap.
+            <p className="mx-auto mt-5 max-w-[44ch] text-[14px] font-light leading-[1.65] text-ink-2">
+              Memory, approvals, and audit are live. Join the waitlist for
+              agent templates, unread notifications, and enterprise features.
             </p>
             <div className="mt-7">
               <WaitlistForm />

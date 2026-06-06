@@ -132,7 +132,7 @@ const shellOpen =
   brandHeader;
 const shellClose = `</div></div>`;
 
-// Social links — kept in sync with the landing page footer.
+// Social links: kept in sync with the landing page footer.
 const GITHUB_URL = "https://github.com/thejatinchawla/coria";
 const LINKEDIN_URL = "https://www.linkedin.com/in/jatin-chawla-2a167720a/";
 // Icons are hosted PNGs (email clients can't render inline SVG). They load from
