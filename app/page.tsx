@@ -5,6 +5,7 @@ import { ProductPreview } from "@/components/ProductPreview";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const APP_URL = "https://coria-app.vercel.app/";
+const GITHUB_URL = "https://github.com/thejatinchawla/coria";
 
 async function submitWaitlist(email: string): Promise<boolean> {
   try {
@@ -365,12 +366,7 @@ function Nav() {
           <a href="#principles" className={link}>
             Principles
           </a>
-          <a
-            href="https://github.com/thejatinchawla/coria"
-            className={link}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={GITHUB_URL} className={link} target="_blank" rel="noreferrer">
             GitHub
           </a>
         </div>
@@ -419,11 +415,7 @@ function Nav() {
               { label: "Progress", href: "#progress" },
               { label: "Features", href: "#features" },
               { label: "Principles", href: "#principles" },
-              {
-                label: "GitHub",
-                href: "https://github.com/thejatinchawla/coria",
-                external: true,
-              },
+              { label: "GitHub", href: GITHUB_URL, external: true },
             ].map((item) => (
               <a
                 key={item.label}
@@ -454,7 +446,17 @@ export default function Page() {
         <section className="hero-viewport relative flex h-[calc(100svh-4rem)] min-h-0 flex-col overflow-hidden lg:grid lg:grid-cols-2 lg:grid-rows-1">
           <div className="hero-in flex shrink-0 flex-col justify-center px-5 py-5 sm:px-8 sm:py-8 lg:min-h-0 lg:shrink lg:px-14 lg:py-16 xl:px-20">
             <div className="mx-auto w-full max-w-[34rem] text-center lg:mx-0 lg:text-left">
-              <span className={eyebrow}>v3 live · Open source</span>
+              <span className={eyebrow}>
+                v3 live ·{" "}
+                <a
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-ink-2 underline decoration-ink-3/50 underline-offset-[3px] transition-colors hover:text-ink"
+                >
+                  Open source
+                </a>
+              </span>
               <h1 className="mt-4 font-serif text-[clamp(28px,7.2vw,58px)] leading-[1.06] tracking-[-0.03em] text-ink sm:mt-6 lg:mt-10">
                 Agents that <i className="italic text-ink-2">act,</i>
                 <br />
@@ -464,15 +466,25 @@ export default function Page() {
                 An AI-native team workspace with channels, multiple agents,
                 human-in-the-loop approvals, and governance built in.
               </p>
-              <div className="mt-5 flex flex-col items-center gap-3 sm:mt-8 sm:gap-5 lg:items-start">
-                <a
-                  href={APP_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex rounded-[4px] bg-ink px-5 py-2.5 text-[13px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 sm:px-6 sm:py-3 sm:text-[14px]"
-                >
-                  Try Coria
-                </a>
+              <div className="mt-5 flex flex-col items-center gap-3 sm:mt-8 sm:items-stretch sm:gap-4 lg:items-start">
+                <div className="flex w-full max-w-[20rem] flex-col gap-2.5 sm:max-w-none sm:w-auto sm:flex-row sm:gap-3">
+                  <a
+                    href={APP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex justify-center rounded-[4px] bg-ink px-5 py-2.5 text-[13px] font-medium text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 sm:px-6 sm:py-3 sm:text-[14px]"
+                  >
+                    Try Coria
+                  </a>
+                  <a
+                    href={GITHUB_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex justify-center rounded-[4px] border border-line bg-white px-5 py-2.5 text-[13px] font-medium text-ink transition-colors duration-150 hover:border-ink-3 hover:bg-line/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 sm:px-6 sm:py-3 sm:text-[14px]"
+                  >
+                    View on GitHub
+                  </a>
+                </div>
                 <p className="hidden max-w-[38ch] text-[13px] font-light text-ink-3 sm:block">
                   Open #general and mention @divv today.{" "}
                   <a
@@ -634,11 +646,15 @@ export default function Page() {
         <section id="waitlist" className="scroll-mt-24 border-t border-line">
           <div className="mx-auto max-w-[920px] px-6 py-20 text-center sm:px-10">
             <span className={eyebrow}>Stay in the loop</span>
-            <p className="mx-auto mt-5 max-w-[44ch] text-[14px] font-light leading-[1.65] text-ink-2">
-              Memory, approvals, and audit are live. Join the waitlist for
-              agent templates, unread notifications, and enterprise features.
+            <h2 className="mx-auto mt-5 max-w-[20ch] font-serif text-[clamp(27px,3.6vw,38px)] leading-[1.12] tracking-[-0.02em] text-ink">
+              Memory, approvals, and audit are{" "}
+              <i className="italic text-ink-2">live.</i>
+            </h2>
+            <p className="mx-auto mt-4 max-w-[40ch] text-[14px] font-light leading-[1.65] text-ink-2">
+              Join the list for agent templates, notifications, and what we ship
+              next.
             </p>
-            <div className="mt-7">
+            <div className="mt-8">
               <WaitlistForm />
             </div>
           </div>
@@ -652,7 +668,7 @@ export default function Page() {
           </p>
           <nav className="flex gap-6" aria-label="Social and external links">
             {[
-              { label: "GitHub", href: "https://github.com/thejatinchawla/coria" },
+              { label: "GitHub", href: GITHUB_URL },
               { label: "LinkedIn", href: "https://www.linkedin.com/in/jatin-chawla-2a167720a/" },
             ].map((l) => (
               <a
